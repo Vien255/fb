@@ -1,0 +1,20 @@
+.comment {
+  .ip {
+    margin-top: 20px;
+  }
+
+  .addComment {
+    position: relative;
+    width: 700px;
+    height: auto;
+    margin: auto;
+    z-index: 888;
+
+    .mainPosts {
+      margin-top: 0px;
+      width: 100%;
+      border-radius: 10px;
+      background: #ffffff;
+    }
+  }
+}
