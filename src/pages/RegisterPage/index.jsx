@@ -1,10 +1,22 @@
-import { Button, Form, Input } from "antd";
-import "./style.scss";
-import fbNameLogo from "../../assets/fbNameLogo.png";
+import { yupResolver } from "@hookform/resolvers/yup";
+import { Form, Input } from "antd";
 import { Controller, useForm } from "react-hook-form";
-import { useNavigate } from "react-router-dom";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import * as yup from "yup";
+import fbNameLogo from "../../assets/fbNameLogo.png";
 import { authenService } from "../../service";
+import "./style.scss";
+
+const schema = yup
+  .object({
+    username: yup.string().required(),
+    email: yup
+      .string()
+      .required()
+      .matches(`[^@ \t\r\n]+@[^@ \t\r\n]+\.[^@ \t\r\n]`, "email must match"),
+    password: yup.string().required(),
+  })
+  .required();
 
 export const RegisterPage = () => {
   const navigate = useNavigate();
@@ -13,7 +25,9 @@ export const RegisterPage = () => {
     handleSubmit,
     control,
     formState: { errors },
-  } = useForm({});
+  } = useForm({
+    resolver: yupResolver(schema),
+  });
 
   const onSubmit = async (data) => {
     await authenService.register(data);
@@ -37,14 +51,22 @@ export const RegisterPage = () => {
               control={control}
               name="username"
               render={({ field }) => (
-                <Input {...field} placeholder="Enter User Name" />
+                <Input
+                  {...field}
+                  placeholder="Enter User Name"
+                  status={errors.username && "error"}
+                />
               )}
             />
             <Controller
               control={control}
               name="email"
               render={({ field }) => (
-                <Input {...field} placeholder="Enter email" />
+                <Input
+                  {...field}
+                  placeholder="Enter email"
+                  status={errors.email && "error"}
+                />
               )}
             />
             <Controller
@@ -55,6 +77,7 @@ export const RegisterPage = () => {
                   {...field}
                   type="password"
                   placeholder="Enter Password"
+                  status={errors.password && "error"}
                 />
               )}
             />

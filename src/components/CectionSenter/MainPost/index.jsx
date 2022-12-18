@@ -17,7 +17,6 @@ export const MainPost = () => {
     const response = await acticlesService.getActicles();
     setDataActicles(response.data.articles);
   };
-  console.log(dataActicles);
 
   return (
     <>
@@ -70,7 +69,9 @@ export const MainPost = () => {
               <div className="svg">
                 <img src={comment} alt="" />
               </div>
-              <h3>Comment</h3>
+              <Link to={`/detail/${acticle.slug}`}>
+                <h3>Comment</h3>
+              </Link>
             </span>
             <span>
               <div className="svg">

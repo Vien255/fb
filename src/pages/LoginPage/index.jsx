@@ -1,11 +1,23 @@
+import { yupResolver } from "@hookform/resolvers/yup";
 import { Form, Input } from "antd";
 import { Controller, useForm } from "react-hook-form";
+import { useDispatch } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
+import * as yup from "yup";
 import fbNameLogo from "../../assets/fbNameLogo.png";
+import { infoUsersSlice } from "../../features/infoUsersSlice";
 import { authenService } from "../../service";
 import "./style.scss";
-import { infoUsersSlice } from "../../features/infoUsersSlice";
+
+const schema = yup
+  .object({
+    email: yup
+      .string()
+      .required()
+      .matches(`[^@ \t\r\n]+@[^@ \t\r\n]+\.[^@ \t\r\n]`, "email must match"),
+    password: yup.string().required(),
+  })
+  .required();
 
 export const LoginPage = () => {
   const dispatch = useDispatch();
@@ -22,6 +34,7 @@ export const LoginPage = () => {
     formState: { errors },
   } = useForm({
     defaultValues,
+    resolver: yupResolver(schema),
   });
 
   const onSumbit = async (data) => {
@@ -32,7 +45,6 @@ export const LoginPage = () => {
       navigate("/");
     } catch (error) {}
   };
-
   return (
     <div className="login">
       <div className="logo">
@@ -50,7 +62,11 @@ export const LoginPage = () => {
               control={control}
               name="email"
               render={({ field }) => (
-                <Input {...field} placeholder="Enter your email" />
+                <Input
+                  {...field}
+                  placeholder="Enter your email"
+                  status={errors.email && "error"}
+                />
               )}
             />
             <Controller
@@ -61,6 +77,7 @@ export const LoginPage = () => {
                   {...field}
                   type="password"
                   placeholder="Enter password"
+                  status={errors.password && "error"}
                 />
               )}
             />
