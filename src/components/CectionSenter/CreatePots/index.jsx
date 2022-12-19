@@ -27,7 +27,7 @@ export const CreatePost = () => {
   } = useForm({});
 
   const onSubmit = async (post) => {
-    await acticlesService.postActicle(post);
+    await acticlesService.postActicle();
     setIsModalOpen(false);
   };
 
@@ -69,7 +69,7 @@ export const CreatePost = () => {
                 <Input {...field} placeholder="Write your article" />
               )}
             />
-            <button type="submit">Đăng Ký</button>
+            <button type="submit">Đăng Bài</button>
           </Form>
         </Modal>
       </div>

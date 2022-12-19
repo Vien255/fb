@@ -27,7 +27,7 @@ export const Comments = ({ dataActicle }) => {
     setLoad(!load);
     setText("");
   };
-
+  console.log("0", dataComments);
   return (
     <div className="comment">
       <h3>Comments</h3>

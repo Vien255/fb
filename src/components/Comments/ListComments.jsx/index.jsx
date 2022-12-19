@@ -1,16 +1,16 @@
 import { Button } from "antd";
 import moment from "moment";
+import { useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { commertsService } from "../../../service";
 
 export const ListComments = ({ dataComments }) => {
   const { slug } = useParams();
-
   const handleDeleteComment = async (id) => {
     await commertsService.deleteComment(slug, id);
     // window.location.reload()
   };
-
+  console.log("1", dataComments);
   return (
     <>
       <h3>List Commnets</h3>
