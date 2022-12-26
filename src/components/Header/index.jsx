@@ -9,9 +9,9 @@ import { Link, useNavigate } from "react-router-dom";
 import { Dropdown, Space } from "antd";
 import Search from "antd/es/transfer/search";
 import { home, logo, map, stoer, tv, users } from "../../assets";
-import "./style.scss";
 import { useSelector } from "react-redux";
 import { selectorInfoUser } from "../../redux/selectors";
+import "./style.scss";
 
 export const Header = () => {
   const navigate = useNavigate();
@@ -79,13 +79,13 @@ export const Header = () => {
 
       <div className="profileTools">
         <div className="tools">
-          <div className="svg">
+          <div className="svg us">
             <PlusOutlined />
           </div>
-          <div className="svg">
+          <div className="svg us">
             <MessageOutlined />
           </div>
-          <div className="svg">
+          <div className="svg us">
             <NotificationOutlined />
           </div>
           <div className="user">

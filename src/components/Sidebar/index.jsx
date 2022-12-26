@@ -30,7 +30,7 @@ export const SideBar = () => {
               className="globalRoundProfile"
               style={{ backgroundImage: `url(${icon1})` }}
             ></div>
-            <div className="name">COVID-19 info center</div>
+            <div className="name">COVID-19 info</div>
           </div>
           <div className="globalProfile">
             <div
@@ -70,7 +70,7 @@ export const SideBar = () => {
               className="globalRoundProfile r-10"
               style={{ backgroundImage: `url(${code1})` }}
             ></div>
-            <div className="name">Html Css Javascript</div>
+            <div className="name">Javascript</div>
           </div>
           <div className="globalProfile">
             <div

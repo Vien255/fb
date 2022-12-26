@@ -1,6 +1,6 @@
 .sideBarContainer {
   position: fixed;
-  padding-left: 40px;
+  padding-left: 80px;
   padding-top: 60px;
 }
 
@@ -105,5 +105,12 @@
     border-radius: 50%;
     background: #31a25c;
     border: 2.4px solid var(--white1);
+  }
+}
+
+@media only screen and (max-width: 1240px) {
+  .sideBarContainer{
+    background-color: black;
+    display: none;
   }
 }

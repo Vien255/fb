@@ -11,13 +11,13 @@
   width: 100%;
 
   .logoSearch {
-    display: flex;
+    display: flex;    
+    margin-left: -4%;
 
     .logo img {
       width: 35%;
     }
   }
-
   .mainMenu {
     display: flex;
 
@@ -32,7 +32,6 @@
       }
     }
   }
-
   .profileTools {
     display: flex;
 
@@ -60,3 +59,22 @@
     }
   }
 }
+@media only screen and (max-width: 1240px) {
+ .search{
+  display: none;
+ }
+
+}
+@media only screen and (max-width: 850px) {
+  .header{
+    padding: 0px
+  }
+  .user,.us,.logo{
+   display: none;
+  }
+  .svg{
+    width: 40px;
+    height: 40px;
+    padding: 60px;
+  }
+ }

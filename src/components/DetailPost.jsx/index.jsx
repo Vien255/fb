@@ -1,12 +1,13 @@
-import { Avatar, Button, Card, Form, Input, Modal, Switch } from "antd";
+import { Avatar, Button, Card, Form, Input, Modal } from "antd";
 import Meta from "antd/es/card/Meta";
 import moment from "moment";
+import { async } from "q";
 import { useEffect, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { useSelector } from "react-redux";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { selectorInfoUser } from "../../redux/selectors";
-import { acticlesService } from "../../service";
+import { acticlesService, favoritesService } from "../../service";
 import "../CectionSenter/style.scss";
 import { Comments } from "../Comments";
 
@@ -38,7 +39,7 @@ export const DetailPost = () => {
 
   useEffect(() => {
     getDataActicle();
-  }, []);
+  }, [loading]);
 
   const getDataActicle = async () => {
     const response = await acticlesService.getActicle(slug);
@@ -53,6 +54,16 @@ export const DetailPost = () => {
     navigate("/");
   };
 
+  const handlefllow = async (dataActicle) => {
+    const IdSlug = dataActicle.slug;
+    const favorited = dataActicle.favorited;
+
+    favorited
+      ? await favoritesService.deleteFavorite(IdSlug)
+      : await favoritesService.postFavorite(IdSlug);
+    setLoading(!loading);
+  };
+
   const { handleSubmit, control, reset } = useForm({});
 
   const onSubmit = async (post) => {
@@ -61,8 +72,6 @@ export const DetailPost = () => {
     setIsModalOpen(false);
     navigate("/");
   };
-
-  console.log(dataActicle);
 
   return (
     <div className="sectionCenter">
@@ -131,8 +140,8 @@ export const DetailPost = () => {
             </div>
           ) : (
             <div className="likeShare">
-              <Button type="primary" onClick={showModal}>
-                Theo dõi
+              <Button type="primary" onClick={() => handlefllow(dataActicle)}>
+                {dataActicle.favorited ? "Bỏ theo dõi" : "Theo dõi"}
               </Button>
             </div>
           )}

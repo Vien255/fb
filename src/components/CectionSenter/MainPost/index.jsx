@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 import moment from "moment/moment.js";
@@ -9,10 +9,13 @@ import { getActicles } from "../../../features/acticlesSlice.js";
 import { selectorActicles } from "../../../redux/selectors.js";
 import { favoritesService } from "../../../service";
 import { LikeOutlined } from "@ant-design/icons";
+import { Avatar, Card } from "antd";
+import Meta from "antd/es/card/Meta";
 
 export const MainPost = () => {
   const dispatch = useDispatch();
   const dataActicles = useSelector(selectorActicles);
+  const [loading, setLoading] = useState(true);
 
   const formatDay = (createdAt) => {
     return moment(createdAt).format("MMMM DD, YYYY");
@@ -36,71 +39,88 @@ export const MainPost = () => {
 
     dispatch(getActicles());
   };
-
   return (
     <>
-      {dataActicles.map((acticle, index) => (
-        <div className="mainPosts" key={index}>
-          <div className="title">
-            <div className="profile">
-              <div
-                className="globalRoundProfile"
-                style={{ backgroundImage: `url(${acticle.author.image})` }}
-              ></div>
+      {dataActicles.length > 0 ? (
+        <div>
+          {dataActicles.map((acticle, index) => (
+            <div className="mainPosts" key={index}>
+              <div className="title">
+                <div className="profile">
+                  <div
+                    className="globalRoundProfile"
+                    style={{ backgroundImage: `url(${acticle.author.image})` }}
+                  ></div>
 
-              <div className="name">
-                <Link>{acticle.author.username}</Link>
-                <span>{formatDay(acticle.createdAt)}</span>
+                  <div className="name">
+                    <Link>{acticle.author.username}</Link>
+                    <span>{formatDay(acticle.createdAt)}</span>
+                  </div>
+                </div>
               </div>
-            </div>
-          </div>
 
-          <Link to={`/detail/${acticle.slug}`}>
-            <div className="description">{acticle.description}</div>
-          </Link>
-
-          <div className="reaction">
-            <div className="icons">
-              <div className="svg">
-                <img src={like} alt="" />
-              </div>
-              <div className="svg">
-                <img src={heart} alt="" />
-              </div>
-              <div className="svg">
-                <img src={care} alt="" />
-              </div>
-              <Link>{acticle.favoritesCount}</Link>
-            </div>
-          </div>
-
-          <div className="likeShare">
-            <span onClick={() => handleLike(acticle)}>
-              <div
-                className="svg"
-                style={{ color: acticle.favorited && "blue" }}
-              >
-                <LikeOutlined />
-              </div>
-              <h3>Like</h3>
-            </span>
-            <span>
-              <div className="svg">
-                <img src={comment} alt="" />
-              </div>
               <Link to={`/detail/${acticle.slug}`}>
-                <h3>Comment</h3>
+                <div className="description">{acticle.description}</div>
               </Link>
-            </span>
-            <span>
-              <div className="svg">
-                <img src={share} alt="" />
+
+              <div className="reaction">
+                <div className="icons">
+                  <div className="svg">
+                    <img src={like} alt="" />
+                  </div>
+                  <div className="svg">
+                    <img src={heart} alt="" />
+                  </div>
+                  <div className="svg">
+                    <img src={care} alt="" />
+                  </div>
+                  <Link>{acticle.favoritesCount}</Link>
+                </div>
               </div>
-              <h3>Share</h3>
-            </span>
-          </div>
+
+              <div className="likeShare">
+                <span onClick={() => handleLike(acticle)}>
+                  <div
+                    className="svg"
+                    style={{ color: acticle.favorited && "blue" }}
+                  >
+                    <LikeOutlined />
+                  </div>
+                  <h3>Like</h3>
+                </span>
+                <span>
+                  <div className="svg">
+                    <img src={comment} alt="" />
+                  </div>
+                  <Link to={`/detail/${acticle.slug}`}>
+                    <h3>Comment</h3>
+                  </Link>
+                </span>
+                <span>
+                  <div className="svg">
+                    <img src={share} alt="" />
+                  </div>
+                  <h3>Share</h3>
+                </span>
+              </div>
+            </div>
+          ))}
         </div>
-      ))}
+      ) : (
+        <Card
+          style={{
+            width: 700,
+            marginTop: 16,
+          }}
+          loading={loading}
+        >
+          <Meta
+            avatar={<Avatar src="https://joeschmoe.io/api/v1/random" />}
+            title="Card title"
+            description="This is the description"
+          />
+        </Card>
+      )}
     </>
   );
 };
