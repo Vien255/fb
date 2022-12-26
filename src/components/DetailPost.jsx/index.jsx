@@ -16,6 +16,8 @@ export const DetailPost = () => {
   const [dataActicle, setDataActicle] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
+  const isUser = ifUser.username === dataActicle?.author?.username;
+
   const formatDay = (createdAt) => {
     return moment(createdAt).format("MMMM DD, YYYY");
   };
@@ -49,7 +51,6 @@ export const DetailPost = () => {
   const { handleSubmit, control, reset } = useForm({});
 
   const onSubmit = async (post) => {
-    console.log(post);
     await acticlesService.putActicle(slug, post);
     reset([]);
     setIsModalOpen(false);
@@ -75,7 +76,7 @@ export const DetailPost = () => {
         </div>
 
         <div className="description">{dataActicle?.description}</div>
-        {ifUser.username === dataActicle?.author?.username ? (
+        {isUser ? (
           <div className="likeShare">
             <Button type="primary" onClick={showModal}>
               Sửa
