@@ -1,5 +1,6 @@
 import { createBrowserRouter } from "react-router-dom";
 import { DetailPostPage } from "../pages/DetailPostPage";
+import { DetailUserPage } from "../pages/DetailUserPage";
 import { HomePage } from "../pages/HomePage";
 import { LoginPage } from "../pages/LoginPage";
 import { RegisterPage } from "../pages/RegisterPage";
@@ -19,6 +20,14 @@ export const router = createBrowserRouter([
     element: (
       <PrivateRoutes>
         <DetailPostPage />
+      </PrivateRoutes>
+    ),
+  },
+  {
+    path: "/user",
+    element: (
+      <PrivateRoutes>
+        <DetailUserPage />
       </PrivateRoutes>
     ),
   },

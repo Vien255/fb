@@ -61,6 +61,10 @@
       border: 1px solid $border-color;
       border-radius: 0.4rem;
 
+      a{
+        text-decoration: none;
+      }
+
       @include for-mobile-only {
         padding: 1.8rem;
       }
@@ -99,16 +103,25 @@
       margin: 20px 16px;
       text-align: center;
     }
-    .rgt {
-      width: 68%;
+    .login-rgt {
+      width: 50%;
       background-color: green;
-      margin-left: 16%;
-      padding: 6px;
       border-radius: 8px;
-      & span {
-        padding-left: 82px;
-        color: #fff;
-      }
+      text-align: center;
+      color: #fff;
+      padding: 10px;
+      margin-left: 24%;
+    }
+    .login-btn{
+      width: 71%;
+      background-color: #1877f2;
+      border-radius: 8px;
+      text-align: center;
+      color: #fff;
+      padding: 15px;
+      margin-left: 15%;
+      font-size: 15px;
+      font-weight: 700;
     }
   }
 }

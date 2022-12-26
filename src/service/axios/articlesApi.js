@@ -25,7 +25,9 @@ export const deleteActicle = (slug) => {
 export const putActicle = (slug, data) => {
   return client.put(`articles/${slug}`, {
     article: {
-      description: data,
+      description: data.description,
+      body: data.body,
+      title: data.title,
     },
   });
 };

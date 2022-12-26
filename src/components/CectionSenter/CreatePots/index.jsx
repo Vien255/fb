@@ -1,14 +1,17 @@
 import { Form, Input, Modal } from "antd";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { live, photo, smile } from "../../../assets";
+import { getActicles } from "../../../features/acticlesSlice";
 import { acticlesService } from "../../../service";
 import "../style.scss";
 
 export const CreatePost = () => {
+  const dispatch = useDispatch();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const infos = useSelector((state) => state.infoUsers.info);
+  const dataPost = useRef();
 
   const showModal = () => {
     setIsModalOpen(true);
@@ -20,15 +23,13 @@ export const CreatePost = () => {
     setIsModalOpen(false);
   };
 
-  const {
-    handleSubmit,
-    control,
-    formState: { errors },
-  } = useForm({});
+  const { handleSubmit, control, reset } = useForm({});
 
   const onSubmit = async (post) => {
-    await acticlesService.postActicle();
+    await acticlesService.postActicle(post);
+    reset([]);
     setIsModalOpen(false);
+    dispatch(getActicles());
   };
 
   return (

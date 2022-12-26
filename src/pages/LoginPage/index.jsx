@@ -81,13 +81,13 @@ export const LoginPage = () => {
                 />
               )}
             />
-            <button type="submit">Đăng Nhập</button>
+            <button type="submit" className="login-btn">
+              Đăng Nhập
+            </button>
           </Form>
           <div className="hr"></div>
           <Link to="/register">
-            <button type="submit" style={{ backgroundColor: "green" }}>
-              Đăng Ký
-            </button>
+            <div className="login-rgt">Đăng Ký</div>
           </Link>
         </div>
       </div>

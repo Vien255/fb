@@ -131,7 +131,9 @@
         background: #dfdddd;
       }
     }
+    
   }
+  
   .buttons {
     width: 95%;
     height: 56px;
@@ -329,13 +331,13 @@
     height: 50px;
     display: flex;
     align-items: center;
-    justify-content: space-between;
+    justify-content: space-around;
     border-top: 1px solid var(--white3);
     margin: auto;
 
     span {
-      width: 218px;
-      height: 32px;
+      width: 15px;
+      height: 19px;
       border-radius: 5px;
       display: flex;
       align-items: center;
@@ -350,8 +352,7 @@
         height: 18px;
 
         & img {
-          width: 100%;
-          height: 100%;
+          height: 90%;
         }
       }
       &:hover {

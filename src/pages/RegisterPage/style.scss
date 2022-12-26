@@ -46,9 +46,9 @@
     }
   }
 
-  .loginCard {
+  .registerCard {
     display: flex;
-    flex: 0.8;
+    flex: 0.6;
     align-items: flex-start;
     flex-direction: column;
 
@@ -94,17 +94,27 @@
       margin: 20px 16px;
       text-align: center;
     }
-    .rgt {
-      width: 68%;
+    .register-rgt {
+      width: 50%;
       background-color: green;
-      margin-left: 16%;
-      padding: 6px;
       border-radius: 8px;
       text-align: center;
       color: #fff;
       padding: 10px;
+      margin-left: 25%;
     }
-
+    .login-btn{
+      width: 71%;
+      background-color: #1877f2;
+      border-radius: 8px;
+      text-align: center;
+      color: #fff;
+      padding: 15px;
+      margin-left: 15%;
+      border:  none;
+      font-size: 15px;
+      font-weight: 700;
+    }
     & a {
       text-decoration: none;
     }

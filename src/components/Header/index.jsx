@@ -11,14 +11,15 @@ import Search from "antd/es/transfer/search";
 import { home, logo, map, stoer, tv, users } from "../../assets";
 import "./style.scss";
 import { useSelector } from "react-redux";
+import { selectorInfoUser } from "../../redux/selectors";
 
 export const Header = () => {
   const navigate = useNavigate();
-  const infos = useSelector((state) => state.infoUsers.info);
+  const infos = useSelector(selectorInfoUser);
 
   const handleMenuClick = (e) => {
     if (e.key === "1") {
-      console.log("1");
+      navigate("/user");
     } else {
       sessionStorage.removeItem("JWTtoken");
       navigate("/login");

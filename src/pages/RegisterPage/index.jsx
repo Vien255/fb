@@ -43,7 +43,7 @@ export const RegisterPage = () => {
           bạn.
         </h3>
       </div>
-      <div className="loginCard">
+      <div className="registerCard">
         <div className="card">
           <span className="title">Đăng Ký</span>
           <Form onFinish={handleSubmit(onSubmit)}>
@@ -81,13 +81,13 @@ export const RegisterPage = () => {
                 />
               )}
             />
-            <button className="button" type="submit">
+            <button className="login-btn" type="submit">
               Đăng Ký
             </button>
           </Form>
           <div className="hr"></div>
           <Link to="/login">
-            <div className="rgt">Đăng Nhập</div>
+            <div className="register-rgt">Đăng Nhập</div>
           </Link>
         </div>
       </div>

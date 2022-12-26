@@ -1,16 +1,23 @@
-import { Button } from "antd";
 import moment from "moment";
-import { useState } from "react";
+import { Button } from "antd";
+import { useDispatch } from "react-redux";
 import { Link, useParams } from "react-router-dom";
 import { commertsService } from "../../../service";
+import { getCommnets } from "../../../features/commentsSlice";
 
 export const ListComments = ({ dataComments }) => {
+  const dispatch = useDispatch();
   const { slug } = useParams();
+
   const handleDeleteComment = async (id) => {
     await commertsService.deleteComment(slug, id);
-    // window.location.reload()
+    dispatch(getCommnets(slug));
   };
-  console.log("1", dataComments);
+
+  const formatDay = (createdAt) => {
+    return moment(createdAt).format("MMMM DD, YYYY");
+  };
+
   return (
     <>
       <h3>List Commnets</h3>
@@ -28,13 +35,11 @@ export const ListComments = ({ dataComments }) => {
 
                 <div className="name">
                   <Link>{comment?.author?.username}</Link>
-                  <span>
-                    {moment(comment?.createdAt).format("MMMM DD, YYYY")}
-                    <i className="fas fa-globe-americas"></i>
-                  </span>
+                  <span>{formatDay(comment?.createdAt)}</span>
                   <div>{comment.body}</div>
                 </div>
               </div>
+
               <Button
                 type="primary"
                 onClick={() => handleDeleteComment(comment.id)}

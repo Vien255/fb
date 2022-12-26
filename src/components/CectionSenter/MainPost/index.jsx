@@ -1,21 +1,40 @@
-import { useEffect, useState } from "react";
-import { acticlesService } from "../../../service/index.js";
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 
 import moment from "moment/moment.js";
 import { Link } from "react-router-dom";
-import { care, comment, heart, like, like_light, share } from "../../../assets";
+import { care, comment, heart, like, share } from "../../../assets";
 import "../style.scss";
+import { getActicles } from "../../../features/acticlesSlice.js";
+import { selectorActicles } from "../../../redux/selectors.js";
+import { favoritesService } from "../../../service";
+import { LikeOutlined } from "@ant-design/icons";
 
 export const MainPost = () => {
-  const [dataActicles, setDataActicles] = useState([]);
+  const dispatch = useDispatch();
+  const dataActicles = useSelector(selectorActicles);
+
+  const formatDay = (createdAt) => {
+    return moment(createdAt).format("MMMM DD, YYYY");
+  };
 
   useEffect(() => {
     getDataActicles();
   }, []);
 
-  const getDataActicles = async () => {
-    const response = await acticlesService.getActicles();
-    setDataActicles(response.data.articles);
+  const getDataActicles = () => {
+    dispatch(getActicles());
+  };
+
+  const handleLike = async (acticle) => {
+    const IdSlug = acticle.slug;
+    const favorited = acticle.favorited;
+
+    favorited
+      ? await favoritesService.deleteFavorite(IdSlug)
+      : await favoritesService.postFavorite(IdSlug);
+
+    dispatch(getActicles());
   };
 
   return (
@@ -31,10 +50,7 @@ export const MainPost = () => {
 
               <div className="name">
                 <Link>{acticle.author.username}</Link>
-                <span>
-                  {moment(acticle.createdAt).format("MMMM DD, YYYY")}
-                  <i className="fas fa-globe-americas"></i>
-                </span>
+                <span>{formatDay(acticle.createdAt)}</span>
               </div>
             </div>
           </div>
@@ -59,9 +75,12 @@ export const MainPost = () => {
           </div>
 
           <div className="likeShare">
-            <span>
-              <div className="svg">
-                <img src={like_light} alt="" />
+            <span onClick={() => handleLike(acticle)}>
+              <div
+                className="svg"
+                style={{ color: acticle.favorited && "blue" }}
+              >
+                <LikeOutlined />
               </div>
               <h3>Like</h3>
             </span>

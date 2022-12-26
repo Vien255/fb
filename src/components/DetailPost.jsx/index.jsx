@@ -1,26 +1,33 @@
-import { Button, Input, Modal } from "antd";
+import { Button, Form, Input, Modal } from "antd";
 import moment from "moment";
 import { useEffect, useState } from "react";
+import { Controller, useForm } from "react-hook-form";
+import { useSelector } from "react-redux";
 import { Link, useNavigate, useParams } from "react-router-dom";
+import { selectorInfoUser } from "../../redux/selectors";
 import { acticlesService } from "../../service";
 import "../CectionSenter/style.scss";
 import { Comments } from "../Comments";
 
 export const DetailPost = () => {
-  const { slug } = useParams();
   const navigate = useNavigate();
+  const ifUser = useSelector(selectorInfoUser);
+  const { slug } = useParams();
   const [dataActicle, setDataActicle] = useState([]);
-  const [desc, setDesc] = useState("");
   const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const formatDay = (createdAt) => {
+    return moment(createdAt).format("MMMM DD, YYYY");
+  };
 
   const showModal = () => {
     setIsModalOpen(true);
   };
+
   const handleOk = async () => {
-    await acticlesService.putActicle(slug, desc);
     setIsModalOpen(false);
-    navigate("/");
   };
+
   const handleCancel = () => {
     setIsModalOpen(false);
   };
@@ -39,6 +46,15 @@ export const DetailPost = () => {
     navigate("/");
   };
 
+  const { handleSubmit, control, reset } = useForm({});
+
+  const onSubmit = async (post) => {
+    console.log(post);
+    await acticlesService.putActicle(slug, post);
+    reset([]);
+    setIsModalOpen(false);
+    navigate("/");
+  };
   return (
     <div className="sectionCenter">
       <div className="mainPosts">
@@ -53,40 +69,63 @@ export const DetailPost = () => {
 
             <div className="name">
               <Link>{dataActicle?.author?.username}</Link>
-              <span>
-                {moment(dataActicle?.createdAt).format("MMMM DD, YYYY")}
-                <i className="fas fa-globe-americas"></i>
-              </span>
+              <span>{formatDay(dataActicle?.createdAt)}</span>
             </div>
           </div>
         </div>
 
         <div className="description">{dataActicle?.description}</div>
-        <div className="likeShare">
-          <Button type="primary" onClick={showModal}>
-            Sửa
-          </Button>
-          <Button
-            type="primary"
-            danger
-            onClick={() => handleDelete(dataActicle?.slug)}
-          >
-            Xóa
-          </Button>
-          <Modal
-            title="Tạo Bài Viết"
-            open={isModalOpen}
-            onOk={handleOk}
-            onCancel={handleCancel}
-          >
-            <Input
-              name="description"
-              placeholder="Enter description"
-              value={desc}
-              onChange={(e) => setDesc(e.target.value)}
-            />
-          </Modal>
-        </div>
+        {ifUser.username === dataActicle?.author?.username ? (
+          <div className="likeShare">
+            <Button type="primary" onClick={showModal}>
+              Sửa
+            </Button>
+            <Button
+              type="primary"
+              danger
+              onClick={() => handleDelete(dataActicle?.slug)}
+            >
+              Xóa
+            </Button>
+            <Modal
+              title="Sửa Bài Viết"
+              open={isModalOpen}
+              onOk={handleOk}
+              onCancel={handleCancel}
+            >
+              <Form onFinish={handleSubmit(onSubmit)}>
+                <Controller
+                  control={control}
+                  name="title"
+                  render={({ field }) => (
+                    <Input {...field} placeholder="Title" />
+                  )}
+                />
+                <Controller
+                  control={control}
+                  name="description"
+                  render={({ field }) => (
+                    <Input {...field} placeholder="Description" />
+                  )}
+                />
+                <Controller
+                  control={control}
+                  name="body"
+                  render={({ field }) => (
+                    <Input {...field} placeholder="Write your article" />
+                  )}
+                />
+                <button type="submit">Sửa Bài</button>
+              </Form>
+            </Modal>
+          </div>
+        ) : (
+          <div className="likeShare">
+            <Button type="primary" onClick={showModal}>
+              Theo dõi
+            </Button>
+          </div>
+        )}
       </div>
       <Comments dataActicle={dataActicle} />
     </div>
